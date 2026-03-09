@@ -36,7 +36,7 @@ export default function Nav() {
     }
   }
   return (
-    <nav id="nav" className="flex items-center border-b border-zinc-800 py-5 mt-12">
+    <nav id="nav" className="flex items-center py-5 mt-12">
       <section id="view" className="flex text-zinc-600 font-bold text-[18px]">
         <p id="view-wpm" className="border-r border-zinc-800 px-8">
           WPM: <span className="text-white font-black text-2xl">{0}</span>
