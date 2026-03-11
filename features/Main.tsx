@@ -1,12 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import TestText from "./TestText";
 
 export default function Main() {
   const dd =
     'Constitutional scholars continue debating the "counter-majoritarian difficulty": how can judicial review—whereby unelected judges overturn legislation passed by democratic representatives—be reconciled with popular sovereignty? Some argue courts protect minority rights against tyrannical majorities; others contend this reasoning masks ideological preferences in neutral-sounding jurisprudence. The tension, perhaps, is irresolvable; democratic systems must balance competing values rather than optimize for any single principle.';
   const [start, setStart] = useState(false);
+  const [testText, setTestText] = useState(dd);
+  const [typingText, setTypingText] = useState("");
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      console.log(start);
+      if (!start) {
+        setStart(true);
+        return;
+      }
+      if (e.key.length === 1) {
+        setTypingText((v) => v + e.key);
+      } else if (e.key === "Backspace") {
+        setTypingText((v) => v.slice(0, -1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [start]);
+
   return (
     <div className="flex flex-col justify-center items-center">
       <main
@@ -18,7 +43,7 @@ export default function Main() {
           className="text-zinc-400 text-3xl font-medium leading-14"
           style={start ? {} : { filter: "blur(4px)" }}
         >
-          {dd}
+          <TestText text={testText} typingText={typingText} />
         </p>
         {!start && (
           <div className="absolute text-white font-semibold top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center">
