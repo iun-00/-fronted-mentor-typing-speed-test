@@ -2,8 +2,8 @@
 
 const TEXT_STYLE = {
   color: {
-    match: "oklch(69.6% 0.17 162.48)",
-    missMatch: "oklch(70.4% 0.191 22.216)",
+    match: "#4DD77B",
+    missMatch: "#C9515D",
     undefind: "oklch(70.5% 0.015 286.067)",
   },
   textDecoration: {
