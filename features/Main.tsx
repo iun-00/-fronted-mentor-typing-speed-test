@@ -3,12 +3,17 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import TestText from "./TestText";
+import { difficultyT, modeT } from "@/entities/type";
+import data from "@/entities/data.json"
 
-export default function Main() {
-  const dd =
-    'Constitutional scholars continue debating the "counter-majoritarian difficulty": how can judicial review—whereby unelected judges overturn legislation passed by democratic representatives—be reconciled with popular sovereignty? Some argue courts protect minority rights against tyrannical majorities; others contend this reasoning masks ideological preferences in neutral-sounding jurisprudence. The tension, perhaps, is irresolvable; democratic systems must balance competing values rather than optimize for any single principle.';
+interface MainT {
+  difficulty: difficultyT,
+  mode: modeT
+}
+
+export default function Main({difficulty, mode}:MainT) {
   const [start, setStart] = useState(false);
-  const [testText, setTestText] = useState(dd);
+  const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
 
   useEffect(() => {
@@ -31,6 +36,10 @@ export default function Main() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [start]);
+
+  useEffect(()=>{
+    setTestText(data[difficulty][Math.floor(Math.random()*10)].text)
+  },[difficulty])
 
   return (
     <div className="flex flex-col justify-center items-center">
