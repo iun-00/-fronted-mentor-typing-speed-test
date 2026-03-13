@@ -1,39 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { difficultyT, modeT } from "@/entities/type";
+import { Dispatch, SetStateAction } from "react";
 
-export default function Nav() {
-  type difficultyT = "easy" | "medium" | "hard";
-  type modeT = "timed" | "passage";
+interface NavT {
+  difficulty: difficultyT
+  setDifficulty: Dispatch<SetStateAction<difficultyT>>
+  mode: modeT
+  setMode: Dispatch<SetStateAction<modeT>>
+}
 
-  const [difficulty, setDifficulty] = useState<difficultyT>("easy");
-  const [mode, setMode] = useState<modeT>("timed");
-
+export default function Nav({difficulty, setDifficulty, mode, setMode}:NavT) {
   const buttonStyleClass =
     "border border-zinc-500 text-zinc-300 px-2 py-0.5 rounded-[5px] cursor-pointer hover:border-blue-400 hover:text-blue-400";
-  function getButtonStyle(type: "difficulty" | "mode", text: difficultyT | modeT) {
-    if (type === "difficulty") return {
-      color:
-        difficulty === text
-          ? "oklch(70.7% 0.165 254.624)"
-          : "oklch(87.1% 0.006 286.286)",
-      borderColor:
-        difficulty === text
-          ? "oklch(70.7% 0.165 254.624)"
-          : "oklch(87.1% 0.006 286.286)",
-      cursor: difficulty === text ? "default" : "pointer",
-    }
-    else return {
-      color:
-        mode === text
-          ? "oklch(70.7% 0.165 254.624)"
-          : "oklch(87.1% 0.006 286.286)",
-      borderColor:
-        mode === text
-          ? "oklch(70.7% 0.165 254.624)"
-          : "oklch(87.1% 0.006 286.286)",
-      cursor: mode === text ? "default" : "pointer",
-    }
+  function getButtonStyle(
+    type: "difficulty" | "mode",
+    text: difficultyT | modeT,
+  ) {
+    if (type === "difficulty")
+      return {
+        color:
+          difficulty === text
+            ? "oklch(70.7% 0.165 254.624)"
+            : "oklch(87.1% 0.006 286.286)",
+        borderColor:
+          difficulty === text
+            ? "oklch(70.7% 0.165 254.624)"
+            : "oklch(87.1% 0.006 286.286)",
+        cursor: difficulty === text ? "default" : "pointer",
+      };
+    else
+      return {
+        color:
+          mode === text
+            ? "oklch(70.7% 0.165 254.624)"
+            : "oklch(87.1% 0.006 286.286)",
+        borderColor:
+          mode === text
+            ? "oklch(70.7% 0.165 254.624)"
+            : "oklch(87.1% 0.006 286.286)",
+        cursor: mode === text ? "default" : "pointer",
+      };
   }
   return (
     <nav id="nav" className="flex items-center py-5 mt-12">
