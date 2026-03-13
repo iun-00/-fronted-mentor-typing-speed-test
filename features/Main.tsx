@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TestText from "./TestText";
 import { difficultyT, modeT } from "@/entities/type";
-import data from "@/entities/data.json"
+import data from "@/entities/data.json";
 
 interface MainT {
-  difficulty: difficultyT,
-  mode: modeT
+  difficulty: difficultyT;
+  mode: modeT;
+  timer: number;
+  setTimer: Dispatch<SetStateAction<number>>;
 }
 
-export default function Main({difficulty, mode}:MainT) {
+export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [start, setStart] = useState(false);
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
@@ -21,6 +23,15 @@ export default function Main({difficulty, mode}:MainT) {
       console.log(start);
       if (!start) {
         setStart(true);
+        const aa = setInterval(() => {
+          setTimer((v) => {
+            if (v <= 0) {
+              clearInterval(aa);
+              return 0;
+            }
+            return v - 1;
+          });
+        }, 1000);
         return;
       }
       if (e.key.length === 1) {
@@ -37,9 +48,17 @@ export default function Main({difficulty, mode}:MainT) {
     };
   }, [start]);
 
-  useEffect(()=>{
-    setTestText(data[difficulty][Math.floor(Math.random()*10)].text)
-  },[difficulty])
+  useEffect(() => {
+    setTestText(data[difficulty][Math.floor(Math.random() * 10)].text);
+  }, [difficulty]);
+
+  useEffect(() => {
+    if (mode === "passage") {
+      setTimer(61); // passage 옵션
+    } else {
+      setTimer(60);
+    }
+  }, [mode]);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -68,7 +87,12 @@ export default function Main({difficulty, mode}:MainT) {
         )}
       </main>
       {start && (
-        <button className="bg-zinc-800 px-5 py-3 text-white font-semibold rounded-[15px] flex gap-2 cursor-pointer mt-8">
+        <button
+          className="bg-zinc-800 px-5 py-3 text-white font-semibold rounded-[15px] flex gap-2 cursor-pointer mt-8"
+          onClick={() => {
+            setTypingText("");
+          }}
+        >
           Restart Test
           <Image src="/images/icon-restart.svg" alt="" width={18} height={18} />
         </button>

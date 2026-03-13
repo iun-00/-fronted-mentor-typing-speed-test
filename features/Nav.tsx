@@ -4,13 +4,20 @@ import { difficultyT, modeT } from "@/entities/type";
 import { Dispatch, SetStateAction } from "react";
 
 interface NavT {
-  difficulty: difficultyT
-  setDifficulty: Dispatch<SetStateAction<difficultyT>>
-  mode: modeT
-  setMode: Dispatch<SetStateAction<modeT>>
+  difficulty: difficultyT;
+  setDifficulty: Dispatch<SetStateAction<difficultyT>>;
+  mode: modeT;
+  setMode: Dispatch<SetStateAction<modeT>>;
+  timer: number;
 }
 
-export default function Nav({difficulty, setDifficulty, mode, setMode}:NavT) {
+export default function Nav({
+  difficulty,
+  setDifficulty,
+  mode,
+  setMode,
+  timer,
+}: NavT) {
   const buttonStyleClass =
     "border border-zinc-500 text-zinc-300 px-2 py-0.5 rounded-[5px] cursor-pointer hover:border-blue-400 hover:text-blue-400";
   function getButtonStyle(
@@ -55,7 +62,7 @@ export default function Nav({difficulty, setDifficulty, mode, setMode}:NavT) {
         <p id="view-time" className="border-zinc-800 px-8">
           Time:{" "}
           <span className="text-white font-black text-2xl">
-            {0}:{60}
+            {timer === 61 ? "-" : `0:${timer}`}
           </span>
         </p>
       </section>
