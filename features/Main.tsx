@@ -26,7 +26,7 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [typingText, setTypingText] = useState("");
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e:KeyboardEvent) => {
       console.log(start);
       if (!start) {
         setStart(true);
