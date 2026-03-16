@@ -71,7 +71,7 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   }, [mode]);
 
   useEffect(() => {
-    if (!typingText.length) return;
+    if (!testText.length) return;
     if (!timer || typingText.length === testText.length) {
       setCharacters(getCharacters(testText, typingText));
       router.push("/completion");
