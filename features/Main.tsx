@@ -25,6 +25,18 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
 
+  function startTimer() {
+    const intervalId = setInterval(() => {
+      setTimer((v) => {
+        if (v <= 0) {
+          clearInterval(intervalId);
+          return 0;
+        }
+        return v - 1;
+      });
+    }, 1000);
+  }
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!start) {
@@ -65,18 +77,6 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
       router.push("/completion");
     }
   }, [timer, typingText]);
-
-  function startTimer() {
-    const intervalId = setInterval(() => {
-      setTimer((v) => {
-        if (v <= 0) {
-          clearInterval(intervalId);
-          return 0;
-        }
-        return v - 1;
-      });
-    }, 1000);
-  }
 
   return (
     <div className="flex flex-col justify-center items-center">
