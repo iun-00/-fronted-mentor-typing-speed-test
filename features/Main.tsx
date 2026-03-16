@@ -26,19 +26,10 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [typingText, setTypingText] = useState("");
 
   useEffect(() => {
-    const handleKeyDown = (e:KeyboardEvent) => {
-      console.log(start);
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (!start) {
         setStart(true);
-        const aa = setInterval(() => {
-          setTimer((v) => {
-            if (v <= 0) {
-              clearInterval(aa);
-              return 0;
-            }
-            return v - 1;
-          });
-        }, 1000);
+        startTimer();
         return;
       }
       if (e.key.length === 1) {
@@ -75,6 +66,18 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
     }
   }, [timer, typingText]);
 
+  function startTimer() {
+    const intervalId = setInterval(() => {
+      setTimer((v) => {
+        if (v <= 0) {
+          clearInterval(intervalId);
+          return 0;
+        }
+        return v - 1;
+      });
+    }, 1000);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center">
       <main
@@ -93,7 +96,10 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
             <button
               id="main-typing_test_start"
               className="bg-blue-500 py-3 px-7 rounded-2xl cursor-pointer flex-none"
-              onClick={() => setStart(true)}
+              onClick={() => {
+                setStart(true);
+                startTimer();
+              }}
             >
               Start Typing Test
             </button>
