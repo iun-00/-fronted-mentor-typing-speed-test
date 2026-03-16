@@ -1,7 +1,9 @@
 "use client";
 
+import { useScoreContext } from "@/app/LayoutClient";
+import { getAccuracy, getWPM } from "@/entities/calculate";
 import { difficultyT, modeT } from "@/entities/type";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 
 interface NavT {
   difficulty: difficultyT;
@@ -18,6 +20,8 @@ export default function Nav({
   setMode,
   timer,
 }: NavT) {
+  const { characters, timeLimit } = useScoreContext();
+
   const buttonStyleClass =
     "border border-zinc-500 text-zinc-300 px-2 py-0.5 rounded-[5px] cursor-pointer hover:border-blue-400 hover:text-blue-400";
   function getButtonStyle(
@@ -49,15 +53,18 @@ export default function Nav({
         cursor: mode === text ? "default" : "pointer",
       };
   }
+
   return (
     <nav id="nav" className="flex items-center py-5 mt-12">
       <section id="view" className="flex text-zinc-600 font-bold text-[18px]">
         <p id="view-wpm" className="border-r border-zinc-800 px-8">
-          WPM: <span className="text-white font-black text-2xl">{0}</span>
+          WPM: <span className="text-white font-black text-2xl">{getWPM(characters.correct, timeLimit)}</span>
         </p>
         <p id="view-accuracy" className="border-r border-zinc-800 px-8">
           Accuracy:{" "}
-          <span className="text-white font-black text-2xl">{100}%</span>
+          <span className="text-white font-black text-2xl">
+            {getAccuracy(characters.correct, characters.incorrect)}%
+          </span>
         </p>
         <p id="view-time" className="border-zinc-800 px-8">
           Time:{" "}

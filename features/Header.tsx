@@ -1,8 +1,11 @@
-"use Client";
+"use client";
 
+import { useScoreContext } from "@/app/LayoutClient";
 import Image from "next/image";
 
 export default function Header() {
+  const { bestScore } = useScoreContext();
+
   return (
     <header id="header" className="flex">
       <Image src="/images/logo-large.svg" alt="" width={284} height={48} />
@@ -15,7 +18,7 @@ export default function Header() {
         />
         <p className="text-zinc-600">Personal Bast:</p>
         <p id="personal-bast-score" className="text-zinc-300">
-          WPM
+          {bestScore} WPM
         </p>
       </div>
     </header>

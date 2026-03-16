@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/features/Header";
+import LayoutClientProvider from "./LayoutClient";
 
 export const metadata: Metadata = {
   title: "typing speed test",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="bg-zinc-950 h-screen px-30 py-10">
-        <Header />
-        {children}
+        <LayoutClientProvider>
+          <Header />
+          {children}
+        </LayoutClientProvider>
       </body>
     </html>
   );

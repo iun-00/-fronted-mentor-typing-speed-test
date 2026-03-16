@@ -1,10 +1,7 @@
 import { RotateCcw } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-const aa = {
-  
-}
+import CompletionText from "@/features/CompletionText";
 
 export default function CompletionPage() {
   return (
@@ -26,24 +23,11 @@ export default function CompletionPage() {
           solid run. Keep pushing to beat your high score.
         </p>
       </div>
-      <div className="flex gap-6 text-zinc-400">
-        <div className="border border-zinc-700 rounded-[10px] p-4 w-32">
-          <p>WPM:</p>
-          <p className="text-2xl font-bold text-white">85</p>
-        </div>
-        <div className="border border-zinc-700 rounded-[10px] p-4 w-32">
-          <p>Accuracy:</p>
-          <p className="text-2xl font-bold">90%</p>
-        </div>
-        <div className="border border-zinc-700 rounded-[10px] p-4 w-32">
-          <p>Characters:</p>
-          <p className="text-2xl font-bold">
-            120<span>/</span>
-            <span>5</span>
-          </p>
-        </div>
-      </div>
-      <Link href={"/"} className="bg-white p-3 rounded-[10px] text-black flex gap-2 cursor-pointer">
+      <CompletionText />
+      <Link
+        href={"/"}
+        className="bg-white p-3 rounded-[10px] text-black flex gap-2 cursor-pointer"
+      >
         <p className="font-bold">Go Again</p>
         <RotateCcw />
       </Link>

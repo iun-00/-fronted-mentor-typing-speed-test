@@ -1,7 +1,7 @@
-import LayoutClient from "./LayoutClient";
+import PageClient from "./PageClient";
 
 export default function Home() {
   return (
-    <LayoutClient />
+    <PageClient />
   );
 }

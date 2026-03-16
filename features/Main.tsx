@@ -5,6 +5,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TestText from "./TestText";
 import { difficultyT, modeT } from "@/entities/type";
 import data from "@/entities/data.json";
+import { useScoreContext } from "@/app/LayoutClient";
+import { getCharacters } from "@/entities/calculate";
+import { useRouter } from "next/navigation";
 
 interface MainT {
   difficulty: difficultyT;
@@ -14,6 +17,10 @@ interface MainT {
 }
 
 export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
+  const { setCharacters } = useScoreContext();
+
+  const router = useRouter();
+
   const [start, setStart] = useState(false);
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
@@ -59,6 +66,14 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
       setTimer(60);
     }
   }, [mode]);
+
+  useEffect(() => {
+    if (!typingText.length) return;
+    if (!timer || typingText.length === testText.length) {
+      setCharacters(getCharacters(testText, typingText));
+      router.push("/completion");
+    }
+  }, [timer, typingText]);
 
   return (
     <div className="flex flex-col justify-center items-center">
