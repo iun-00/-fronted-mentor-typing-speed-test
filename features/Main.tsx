@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import TestText from "./TestText";
 import { difficultyT, modeT } from "@/entities/type";
 import data from "@/entities/data.json";
@@ -25,11 +25,18 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
 
-  function startTimer() {
-    const intervalId = setInterval(() => {
+  const intervalRef = useRef<number | undefined>(undefined);
+
+  function startTimer(clear?: false) {
+    if (!clear) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = undefined;
+      return;
+    }
+    intervalRef.current = setInterval(() => {
       setTimer((v) => {
         if (v <= 0) {
-          clearInterval(intervalId);
+          clearInterval(intervalRef.current!);
           return 0;
         }
         return v - 1;
@@ -41,7 +48,7 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!start) {
         setStart(true);
-        startTimer();
+        startTimer(false);
         return;
       }
       if (e.key.length === 1) {
@@ -57,6 +64,13 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [start]);
+
+  useEffect(() => {
+    if (start) {
+      setStart(false);
+      startTimer(false);
+    }
+  }, [difficulty, mode]);
 
   useEffect(() => {
     setTestText(data[difficulty][Math.floor(Math.random() * 10)].text);
@@ -112,6 +126,7 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
           className="bg-zinc-800 px-5 py-3 text-white font-semibold rounded-[15px] flex gap-2 cursor-pointer mt-8"
           onClick={() => {
             setTypingText("");
+            setTimer(60);
           }}
         >
           Restart Test
