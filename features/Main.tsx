@@ -25,7 +25,7 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
 
-  const intervalRef = useRef<number | undefined>(undefined);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
   function startTimer(clear?: false) {
     if (!clear) {
