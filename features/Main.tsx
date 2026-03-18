@@ -25,7 +25,9 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   const [testText, setTestText] = useState("");
   const [typingText, setTypingText] = useState("");
 
-  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
+    undefined,
+  );
 
   function startTimer(clear?: false) {
     if (!clear) {
@@ -85,9 +87,9 @@ export default function Main({ difficulty, mode, timer, setTimer }: MainT) {
   }, [mode]);
 
   useEffect(() => {
+    setCharacters(getCharacters(testText, typingText));
     if (!testText.length) return;
     if (!timer || typingText.length === testText.length) {
-      setCharacters(getCharacters(testText, typingText));
       router.push("/completion");
     }
   }, [timer, typingText]);
